@@ -3,7 +3,7 @@
   const p = window.PORTFOLIO;
   const view = window.PORTFOLIO_VIEW;
   if (!p || !view) return;
-  const { projects, esc } = view;
+  const { projects, esc, icon } = view;
   const u = p.ui;
   const root = document.documentElement;
   const media = matchMedia('(prefers-reduced-motion: reduce)');
@@ -13,17 +13,18 @@
   const store = (key, value) => { try { localStorage.setItem(key, value); } catch (_) { /* Optional persistence. */ } };
   let quiet = root.dataset.motion === 'reduced';
   $('#quietMotion').checked = quiet;
-  $('#themeSelect').value = root.dataset.theme || 'system';
+  const themeInputs = $$('input[name="portfolio-theme"]');
+  themeInputs.forEach(input => { input.checked = input.value === (root.dataset.theme || 'system'); });
   const updateThemeColor = () => {
     const dark = root.dataset.theme === 'dark' || (!root.dataset.theme && themeMedia.matches);
     $('meta[name="theme-color"]').content = dark ? '#211c26' : '#fff8fb';
   };
-  $('#themeSelect').addEventListener('change', e => {
+  themeInputs.forEach(input => input.addEventListener('change', e => {
     if (e.target.value === 'system') delete root.dataset.theme;
     else root.dataset.theme = e.target.value;
     store('portfolio-theme', e.target.value);
     updateThemeColor();
-  });
+  }));
   themeMedia.addEventListener('change', updateThemeColor);
   updateThemeColor();
   $('#quietMotion').addEventListener('change', e => {
@@ -104,7 +105,7 @@
   const evidenceSelect = $('#evidenceSelect');
   const renderEvidence = () => {
     const selected = evidenceSelect.value;
-    $('#evidenceGroups').innerHTML = projects.filter(item => selected === 'all' || item.id === selected).map(item => `<section class="evidenceGroup" aria-labelledby="source-${esc(item.id)}"><h3 id="source-${esc(item.id)}">${esc(item.title)}</h3><p>${esc(item.summary)}</p><ul class="evidenceList">${item.evidence.map(e => `<li><a href="${esc(e.url)}" target="_blank" rel="noopener noreferrer" aria-label="${esc(`${e.code}：${e.text}，${u.evidenceOpen}`)}"><code>${esc(e.code)}</code><span>${esc(e.text)}</span><span aria-hidden="true">↗</span></a></li>`).join('')}</ul></section>`).join('');
+    $('#evidenceGroups').innerHTML = projects.filter(item => selected === 'all' || item.id === selected).map(item => `<section class="evidenceGroup" aria-labelledby="source-${esc(item.id)}"><h3 id="source-${esc(item.id)}">${esc(item.title)}</h3><p>${esc(item.summary)}</p><ul class="evidenceList">${item.evidence.map(e => `<li><a href="${esc(e.url)}" target="_blank" rel="noopener noreferrer" aria-label="${esc(`${e.code}：${e.text}，${u.evidenceOpen}`)}"><code>${esc(e.code)}</code><span>${esc(e.text)}</span>${icon('external')}</a></li>`).join('')}</ul></section>`).join('');
   };
   evidenceSelect.addEventListener('change', renderEvidence);
   let dialogTrigger;

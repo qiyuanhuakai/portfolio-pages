@@ -419,8 +419,13 @@ window.PORTFOLIO = {
       "light": "樱雾 · 浅色",
       "dark": "暮紫 · 深色"
     },
+    "themeChoiceLabels": {
+      "system": "系统",
+      "light": "浅色",
+      "dark": "深色"
+    },
     "quiet": "静态阅读",
-    "quietHint": "关闭入场与悬浮动效；也会尊重系统的减少动态效果设置。",
+    "quietHint": "关闭动画与平滑滚动，专注阅读。",
     "preferenceNote": "偏好仅保存在当前浏览器。",
     "search": "搜索项目或技术栈",
     "searchPlaceholder": "搜索项目、问题或技术栈…",
