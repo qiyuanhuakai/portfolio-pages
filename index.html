@@ -1,47 +1,89 @@
 <!doctype html>
 <html lang="zh-CN">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="color-scheme" content="light dark">
-<meta name="description" content="qiyuanhuakai 的技术作品集">
-<title>qiyuanhuakai · Engineering Portfolio</title>
-<link rel="stylesheet" href="style.css">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#fff7fa">
+  <meta name="description" content="qiyuanhuakai 的技术作品集：多 Agent 客户端、科研软件、ARM64 移植与长周期任务。">
+  <title>qiyuanhuakai · Engineering Portfolio</title>
+  <script>
+    try {
+      const theme = localStorage.getItem('portfolio-theme');
+      if (['light', 'dark'].includes(theme)) document.documentElement.dataset.theme = theme;
+      if (localStorage.getItem('portfolio-quiet') === 'true') document.documentElement.dataset.motion = 'reduced';
+    } catch (_) { /* Storage may be disabled; system preferences still apply. */ }
+  </script>
+  <link rel="stylesheet" href="style.css?v=20261023">
 </head>
 <body>
-<header class="top"><div class="topin wrap"><a class="brand" href="#top" id="brand"></a><nav class="nav"><a href="#work">WORK</a><a href="#approach">APPROACH</a><a id="githubLink" href="#">GITHUB ↗</a></nav></div></header>
-<main id="top"></main>
-<footer><div class="foot wrap"><span id="footLeft"></span><span id="footRight"></span></div></footer>
-<script src="content.js"></script>
-<script>
-(() => {
-  const p = window.PORTFOLIO;
-  if (!p) return;
-  document.title = p.meta.title;
-  document.querySelector('meta[name="description"]').content = p.meta.description;
-  document.getElementById('brand').textContent = p.meta.brand;
-  document.getElementById('githubLink').href = p.meta.github;
-  document.getElementById('footLeft').textContent = p.footer.left;
-  document.getElementById('footRight').textContent = p.footer.right;
-  const esc = (s = '') => String(s).replace(/[&<>"']/g, (c) => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-  const list = (items = []) => `<ul>${items.map((x) => `<li>${esc(x)}</li>`).join('')}</ul>`;
-  const evidence = (title, items = []) => `<div class="evidence reveal"><div class="evidenceTitle">${esc(title)}</div><div class="evidenceLinks">${items.map((e) => `<a class="ev" href="${esc(e.url)}"><code>${esc(e.code)}</code><span>${esc(e.text)}</span></a>`).join('')}</div></div>`;
-  const hero = `<section class="hero wrap"><div class="eyebrow stagger">${esc(p.hero.eyebrow)}</div><h1 class="stagger">${esc(p.hero.titleBefore)}<em>${esc(p.hero.titleAccent)}</em>${esc(p.hero.titleAfter)}</h1><p class="intro stagger">${esc(p.hero.intro)}</p><div class="actions stagger"><a class="btn primary" href="#work">${esc(p.hero.primaryAction)}</a><a class="btn" href="${esc(p.meta.zip)}">${esc(p.hero.secondaryAction)}</a></div><div class="signal stagger">${p.stats.map((s) => `<div><strong>${esc(s.value)}</strong><span>${esc(s.label)}</span></div>`).join('')}</div></section>`;
-  const featured = p.featured.map((item) => {
-    const columns = item.columns ? `<div class="split reveal">${item.columns.map((col) => `<div><h4>${esc(col.title)}</h4>${col.items ? list(col.items) : `<p>${esc(col.body)}</p>`}</div>`).join('')}</div>` : '';
-    const boundary = item.boundary ? `<div class="boundary reveal"><div class="boundaryBox"><div class="label">${esc(item.boundary.human.label)}</div><h4>${esc(item.boundary.human.title)}</h4>${list(item.boundary.human.items)}</div><div class="arrow">→</div><div class="boundaryBox agent"><div class="label">${esc(item.boundary.agent.label)}</div><h4>${esc(item.boundary.agent.title)}</h4>${list(item.boundary.agent.items)}</div></div><p class="truthNote reveal">${esc(item.boundary.note)}</p>` : '';
-    return `<article class="case reveal"><aside class="caseMeta"><div class="num">${esc(item.number)}</div><div class="role">${esc(item.role)}</div><div class="stack">${item.stack.map((s) => `<span>${esc(s)}</span>`).join('')}</div></aside><div class="caseBody"><h3>${esc(item.title)}</h3><p class="lead">${esc(item.lead)}</p>${columns}${boundary}${evidence(item.evidenceTitle, item.evidence)}<a class="textlink" href="${esc(item.link)}">${esc(item.linkLabel)}</a></div></article>`;
-  }).join('');
-  const compact = p.compact.map((item) => {
-    const metrics = item.metrics ? `<div class="metrics reveal">${item.metrics.map((m) => `<div><strong>${esc(m.value)}</strong><span>${esc(m.label)}</span></div>`).join('')}</div>` : '';
-    const ev = item.evidence ? evidence('Evidence', item.evidence) : '';
-    return `<article class="compact reveal"><div class="num">${esc(item.number)}</div><h3>${esc(item.title)}</h3><p>${esc(item.intro)}</p>${item.items ? list(item.items) : ''}${metrics}${item.body ? `<p>${esc(item.body)}</p>` : ''}${ev}${item.link ? `<a class="textlink" href="${esc(item.link)}">${esc(item.linkLabel)}</a>` : ''}</article>`;
-  }).join('');
-  const work = `<section class="section wrap" id="work"><div class="sectionHead reveal"><div><div class="eyebrow">${esc(p.workIntro.eyebrow)}</div><h2>${esc(p.workIntro.title)}</h2></div><p>${esc(p.workIntro.body)}</p></div><div class="cases">${featured}</div><div class="compactGrid">${compact}</div></section>`;
-  const approach = `<section class="section wrap" id="approach"><div class="method reveal"><div class="methodIntro"><div class="eyebrow">${esc(p.approach.eyebrow)}</div><h2>${esc(p.approach.title)}</h2></div><div><div class="principles">${p.approach.principles.map((x) => `<div class="principle reveal"><span class="n">${esc(x.number)}</span><b>${esc(x.title)}</b><p>${esc(x.body)}</p></div>`).join('')}</div><div class="aiNote reveal"><div class="label">${esc(p.approach.aiLabel)}</div><h3>${esc(p.approach.aiTitle)}</h3><p>${esc(p.approach.aiBody)}</p></div></div></div></section>`;
-  document.getElementById('top').innerHTML = hero + work + approach;
-})();
-</script>
-<script src="motion.js"></script>
+  <a class="skip" href="#top">跳到正文</a>
+  <header class="top"><div class="topin wrap" id="headerContent"></div></header>
+  <main id="top" tabindex="-1"></main>
+  <noscript><div class="wrap noscript">请启用 JavaScript 查看项目内容，或访问 <a href="https://github.com/qiyuanhuakai">GitHub 仓库</a>。</div></noscript>
+  <footer class="wrap" id="footerContent"></footer>
+  <dialog id="evidenceDialog" aria-labelledby="evidenceHeading"></dialog>
+  <dialog id="copyDialog" aria-labelledby="copyHeading"></dialog>
+  <div class="toast" role="status" aria-live="polite" aria-atomic="true" id="toast"></div>
+  <script src="content.js?v=20261023"></script>
+  <script>
+  (() => {
+    const p = window.PORTFOLIO;
+    if (!p) return;
+    const u = p.ui;
+    const projects = [...p.featured, ...p.compact];
+    const esc = (s = '') => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+    const list = (items = []) => `<ul>${items.map(x => `<li>${esc(x)}</li>`).join('')}</ul>`;
+    const external = (url, label, cls = '') => `<a class="${cls}" href="${esc(url)}" target="_blank" rel="noopener noreferrer">${esc(label)}</a>`;
+    const count = n => esc(u.evidenceCount.replace('{count}', n));
+    const stack = item => `<div class="stack">${item.stack.map(x => `<span>${esc(x)}</span>`).join('')}</div>`;
+    const seal = `<svg class="seal" viewBox="0 0 40 40" aria-hidden="true"><path d="M20 20C-2 15 8-1 20 12C32-1 42 15 20 20C42 25 32 41 20 28C8 41-2 25 20 20Z" fill="none" stroke="currentColor"/><path d="M20 5V35M5 20H35" stroke="currentColor" opacity=".4"/><circle cx="20" cy="20" r="3" fill="currentColor"/></svg>`;
+    document.title = p.meta.title;
+    document.querySelector('meta[name="description"]').content = p.meta.description;
+    document.querySelector('.skip').textContent = u.skip;
+    document.getElementById('headerContent').innerHTML = `
+      <a class="brand" href="#top">${seal}<span>${esc(p.meta.brand)}<small>${esc(u.brandNote)}</small></span></a>
+      <nav class="nav" aria-label="主导航"><a href="#work">${esc(u.navWork)}</a><a href="#approach">${esc(u.navApproach)}</a><button type="button" data-evidence="all">${esc(u.navEvidence)}</button>${external(p.meta.github, u.navGithub, 'navGithub')}</nav>
+      <details class="preferences"><summary>${esc(u.preferences)}<span aria-hidden="true">⌄</span></summary><div class="preferencesPanel">
+        <label for="themeSelect">${esc(u.theme)}</label><select id="themeSelect">${Object.entries(u.themes).map(([v, t]) => `<option value="${v}">${esc(t)}</option>`).join('')}</select>
+        <label class="check" for="quietMotion"><input type="checkbox" id="quietMotion"><span>${esc(u.quiet)}</span></label><p>${esc(u.quietHint)}</p><small>${esc(u.preferenceNote)}</small>
+      </div></details>`;
+    const petals = `<svg class="botanical" viewBox="0 0 480 250" fill="none" aria-hidden="true">
+      <defs><linearGradient id="petalWash" x1="120" y1="40" x2="360" y2="220" gradientUnits="userSpaceOnUse"><stop stop-color="#f3b6d0" stop-opacity=".65"/><stop offset="1" stop-color="#c4b2e6" stop-opacity=".18"/></linearGradient></defs>
+      <g stroke="currentColor" stroke-width=".7"><ellipse cx="260" cy="123" rx="177" ry="93" transform="rotate(-18 260 123)" opacity=".28"/><ellipse cx="260" cy="123" rx="145" ry="108" transform="rotate(23 260 123)" opacity=".16"/>
+      <path d="M20 210C120 210 114 22 258 123S423 155 477 17M0 228C176 234 113-20 258 123S413 208 480 26M58 240C210 182 144-14 258 123S449 235 479 81" opacity=".28"/>
+      <g fill="url(#petalWash)" stroke-opacity=".45"><path id="petal" d="M258 123C203 113 193 61 227 31C230 53 245 39 252 34C279 58 280 90 258 123Z"/><use href="#petal" transform="rotate(72 258 123)"/><use href="#petal" transform="rotate(144 258 123)"/><use href="#petal" transform="rotate(216 258 123)"/><use href="#petal" transform="rotate(288 258 123)"/></g>
+      <circle cx="258" cy="123" r="7"/><circle cx="258" cy="123" r="13" opacity=".35"/>
+      <path d="M385 44V58M378 51H392M122 74V86M116 80H128M403 188V198M398 193H408" opacity=".6"/><circle cx="97" cy="158" r="2"/><circle cx="355" cy="207" r="2"/><circle cx="420" cy="92" r="3"/>
+      </g></svg>`;
+    const hero = `<section class="hero wrap" aria-labelledby="heroHeading"><div class="heroCopy">
+      <div class="eyebrow">${esc(p.hero.eyebrow)}</div><h1 id="heroHeading">${esc(p.hero.titleBefore)}<em>${esc(p.hero.titleAccent)}</em>${esc(p.hero.titleAfter)}</h1>
+      <p class="intro">${esc(p.hero.intro)}</p><div class="actions"><a class="btn primary" href="#work">${esc(p.hero.primaryAction)} <span aria-hidden="true">↘</span></a><button class="btn" type="button" data-evidence="all">${esc(u.navEvidence)}</button></div>
+      <p class="heroNote">${esc(p.hero.note)}</p>
+      </div><aside class="fieldIndex" aria-label="${esc(p.hero.mapLabel)}"><div class="fieldTop"><span>${esc(p.hero.ornamentLabel)}</span><span>FIELD INDEX / 05</span></div>${petals}<div class="indexHeading"><h2>${esc(p.hero.mapTitle)}</h2><p>${esc(p.hero.mapNote)}</p></div>
+      <nav class="projectPaths" aria-label="${esc(u.jumpLabel)}">${projects.map((item, i) => `<a href="#${esc(item.id)}"><span class="pathNumber">0${i + 1}</span><span>${esc(item.title)}<small>${esc(item.summary)}</small></span><span aria-hidden="true">↗</span></a>`).join('')}</nav></aside>
+      <div class="signal">${p.stats.map(s => `<div><strong>${esc(s.value)}</strong><span>${esc(s.label)}</span></div>`).join('')}</div>
+    </section>`;
+    const evidencePreview = item => `<div class="evidencePreview"><span class="evidenceCaption">${esc(item.evidenceTitle || u.navEvidence)} <small>/ ${count(item.evidence.length)}</small></span><div class="evidenceChips">${item.evidence.map(e => external(e.url, `${e.code} ↗`, 'evidenceChip')).join('')}</div></div>`;
+    const cardActions = item => `<div class="cardActions"><div class="cardPrimaryActions"><button type="button" class="btn small" data-evidence="${esc(item.id)}">${esc(u.evidence)} <span aria-hidden="true">↗</span></button>${item.link ? external(item.link, item.linkLabel, 'textlink') : ''}</div><button type="button" class="copyLink" data-copy="${esc(item.id)}">${esc(u.copy)}</button></div>`;
+    const featured = p.featured.map(item => {
+      const columns = item.columns ? `<div class="split">${item.columns.map(col => `<div><h4>${esc(col.title)}</h4>${col.items ? list(col.items) : `<p>${esc(col.body)}</p>`}</div>`).join('')}</div>` : '';
+      const boundary = item.boundary ? `<div class="boundary">${['human', 'agent'].map(key => `<div class="boundaryBox ${key}"><div class="label">${esc(item.boundary[key].label)}</div><h4>${esc(item.boundary[key].title)}</h4>${list(item.boundary[key].items)}</div>`).join('')}</div><p class="truthNote">${esc(item.boundary.note)}</p>` : '';
+      return `<article class="case project" id="${esc(item.id)}" data-category="${esc(item.category)}" aria-labelledby="${esc(item.id)}-title"><aside class="caseMeta"><span class="num">${esc(item.number)}</span><span class="category">${esc(item.categoryLabel)}</span><p class="role">${esc(item.role)}</p>${stack(item)}</aside><div class="caseBody"><h3 id="${esc(item.id)}-title">${esc(item.title)}</h3><p class="lead">${esc(item.lead)}</p>${columns}${boundary}${evidencePreview(item)}${cardActions(item)}</div></article>`;
+    }).join('');
+    const compact = p.compact.map(item => `<article class="compact project" id="${esc(item.id)}" data-category="${esc(item.category)}" aria-labelledby="${esc(item.id)}-title"><div class="compactMeta"><span class="num">${esc(item.number)}</span><span class="category">${esc(item.categoryLabel)}</span></div><h3 id="${esc(item.id)}-title">${esc(item.title)}</h3><p class="lead">${esc(item.intro)}</p>${stack(item)}${item.items ? list(item.items) : ''}${item.metrics ? `<div class="metrics">${item.metrics.map(m => `<div><strong>${esc(m.value)}</strong><span>${esc(m.label)}</span></div>`).join('')}</div>` : ''}${item.body ? `<p>${esc(item.body)}</p>` : ''}${evidencePreview(item)}${cardActions(item)}</article>`).join('');
+    const work = `<section class="section wrap" id="work" aria-labelledby="workHeading"><div class="sectionHead"><div><div class="eyebrow">${esc(p.workIntro.eyebrow)}</div><h2 id="workHeading">${esc(p.workIntro.title)}<span class="headingMark" aria-hidden="true">✳</span></h2></div><p>${esc(p.workIntro.body)}</p></div>
+      <div class="workTools"><div class="filters" role="group" aria-label="${esc(u.filterLabel)}">${u.filters.map(f => `<button type="button" data-filter="${esc(f.id)}" aria-pressed="${f.id === 'all'}">${esc(f.label)} <span>${f.id === 'all' ? projects.length : projects.filter(p => p.category === f.id).length}</span></button>`).join('')}</div><div class="searchBox"><span aria-hidden="true">⌕</span><input type="search" id="projectSearch" aria-label="${esc(u.search)}" placeholder="${esc(u.searchPlaceholder)}"><button type="button" id="clearSearch" aria-label="${esc(u.clearSearch)}" hidden>×</button></div></div>
+      <div class="resultRow"><p id="resultCount" role="status" aria-live="polite"></p><button type="button" class="copyLink" id="resetFilters" hidden>${esc(u.reset)}</button></div>
+      <div class="cases">${featured}</div><div class="compactGrid">${compact}</div><div class="emptyState" id="emptyState" hidden><h3>${esc(u.emptyTitle)}</h3><p>${esc(u.emptyBody)}</p><button type="button" class="btn" data-reset>${esc(u.reset)}</button></div></section>`;
+    const approach = `<section class="section wrap" id="approach" aria-labelledby="approachHeading"><div class="method"><div class="methodIntro"><div class="eyebrow">${esc(p.approach.eyebrow)}</div><h2 id="approachHeading">${esc(p.approach.title)}</h2><div class="methodOrnament" aria-hidden="true">${seal}<span>PROCESS<br>↓<br>EVIDENCE</span></div></div><div><div class="principles">${p.approach.principles.map(x => `<div class="principle"><span class="n">${esc(x.number)}</span><h3>${esc(x.title)}</h3><p>${esc(x.body)}</p></div>`).join('')}</div><div class="aiNote"><div class="label">${esc(p.approach.aiLabel)}</div><h3>${esc(p.approach.aiTitle)}</h3><p>${esc(p.approach.aiBody)}</p></div></div></div></section>`;
+    document.getElementById('top').innerHTML = hero + work + approach;
+    document.getElementById('footerContent').innerHTML = `<div class="footerActions"><a class="textlink" href="${esc(p.meta.zip)}">${esc(p.hero.secondaryAction)} ↓</a><button type="button" class="copyLink" id="printPage">${esc(u.print)}</button><button type="button" class="copyLink" data-copy="page">${esc(u.copyPage)}</button><a href="#top">${esc(u.backTop)}</a></div><div class="foot"><span>${esc(p.footer.left)}</span><span>${esc(p.footer.right)}</span></div>`;
+    document.getElementById('evidenceDialog').innerHTML = `<div class="dialogTop"><div class="eyebrow">SOURCE NOTES / 证据</div><button type="button" class="closeDialog" data-close aria-label="${esc(u.close)}">×</button></div><h2 id="evidenceHeading">${esc(u.evidenceTitle)}</h2><p class="dialogIntro">${esc(u.evidenceIntro)}</p><label for="evidenceSelect">${esc(u.evidenceSelect)}</label><select id="evidenceSelect"><option value="all">${esc(u.allEvidence)}</option>${projects.map(item => `<option value="${esc(item.id)}">${esc(item.title)}</option>`).join('')}</select><div id="evidenceGroups"></div><p class="dialogNote">${esc(u.evidenceNote)}</p>`;
+    document.getElementById('copyDialog').innerHTML = `<div class="dialogTop"><h2 id="copyHeading">${esc(u.copyManual)}</h2><button type="button" class="closeDialog" data-close aria-label="${esc(u.close)}">×</button></div><p>${esc(u.copyFallback)}</p><input id="manualLink" type="url" readonly aria-label="${esc(u.copyManual)}">`;
+    window.PORTFOLIO_VIEW = { projects, esc, external };
+  })();
+  </script>
+  <script src="motion.js?v=20261023"></script>
 </body>
 </html>
