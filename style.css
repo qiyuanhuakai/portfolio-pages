@@ -53,6 +53,8 @@ button, a, summary { touch-action: manipulation; }
 .withIcon { display: inline-flex; align-items: center; gap: 7px; vertical-align: middle; }
 ::selection { background: var(--wash); color: var(--text); }
 :focus-visible { outline: 2px solid var(--accent); outline-offset: 5px; border-radius: 4px; }
+main:focus { outline: none; }
+.project:focus-visible { outline: none; }
 [hidden] { display: none !important; }
 .wrap { width: min(var(--max), calc(100% - 80px)); margin-inline: auto; }
 .skip { position: fixed; top: 8px; left: 20px; z-index: 100; padding: 8px 16px; background: var(--surface); transform: translateY(-160%); }
