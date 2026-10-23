@@ -150,9 +150,10 @@ h1 em { display: block; font-style: normal; color: var(--primary); }
 .filters button span { margin-left: 6px; font: 10px var(--mono); opacity: .85; }
 .filters button:hover { background: var(--soft); }
 .filters button[aria-pressed="true"] { border-color: var(--strong); background: var(--soft); color: var(--primary); }
-.searchBox { display: flex; align-items: center; gap: 7px; min-height: 40px; padding: 0 10px; width: 285px; flex-shrink: 0; border: 1px solid var(--border); border-radius: 7px; background: var(--surface); }
-.searchBox>.icon { color: var(--muted); }
-.searchBox input { width: 100%; min-width: 0; padding: 8px 0; background: transparent; border: 0; font-size: 12px; outline-offset: 1px; }
+.searchBox { display: flex; align-items: center; gap: 9px; min-height: 42px; padding: 0 13px; width: 285px; flex-shrink: 0; border: 1px solid var(--border); border-radius: 12px; background: var(--surface); }
+.searchBox>.icon { color: var(--muted); transition: color .25s ease; }
+.searchBox input { width: 100%; min-width: 0; padding: 9px 0; background: transparent; border: 0; border-radius: 0; font-size: 12px; caret-color: var(--primary); }
+.searchBox input:focus { outline: none; }
 .searchBox input::placeholder { color: var(--muted); }
 .searchBox input::-webkit-search-cancel-button { display: none; }
 .searchBox button { display: grid; place-items: center; min-width: 28px; min-height: 32px; padding: 0; }
@@ -183,7 +184,6 @@ li::marker { color: var(--primary); font-size: 10px; }
 .boundaryBox { padding: 20px; border: 1px solid var(--border); border-radius: 10px; background: var(--soft); }
 .boundaryBox.agent { background: color-mix(in srgb, var(--lavender) 65%, var(--surface)); }
 .boundaryBox .label { margin-bottom: 12px; }
-.truthNote { border-left: 2px solid var(--strong); padding-left: 16px; margin: 22px 0; font-size: 12px; color: var(--muted); }
 .evidencePreview { display: flex; align-items: center; flex-wrap: wrap; gap: 12px; margin-top: 25px; padding-top: 18px; border-top: 1px solid var(--border); }
 .evidenceCaption { font-size: 11px; color: var(--accent); }
 .evidenceCaption small { color: var(--muted); font-size: 10px; }
@@ -271,11 +271,35 @@ dialog h2 { margin: 8px 0 15px; font-size: 32px; line-height: 1.4; }
 .hoverLight::after { content: ''; position: absolute; z-index: -1; inset: 0; border-radius: inherit; background: radial-gradient(360px circle at var(--light-x, 50%) var(--light-y, 0%), color-mix(in srgb, var(--wash) 65%, transparent), transparent 75%); opacity: 0; transition: opacity .5s ease; pointer-events: none; }
 .withIcon .icon, .btn .icon { transition: transform .3s cubic-bezier(.22,.7,.3,1); }
 .filters button, .stack span, .evidenceChip, .evidenceList a, .searchBox { transition: background-color .25s ease, border-color .25s ease, box-shadow .35s ease, transform .3s ease; }
-.searchBox:focus-within { border-color: var(--strong); box-shadow: 0 0 0 3px color-mix(in srgb, var(--wash) 60%, transparent); }
+.searchBox:focus-within { border-color: var(--primary); background: color-mix(in srgb, var(--surface) 94%, var(--wash)); box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary) 10%, transparent), 0 4px 16px color-mix(in srgb, var(--primary) 5%, transparent); }
+.searchBox:focus-within>.icon { color: var(--primary); }
 .btn:active { transform: translateY(0) scale(.98); }
 .filters button:active { transform: scale(.97); }
 .foot>span:last-child { color: var(--primary); }
 dialog[open]::backdrop { animation: backdropIn .3s ease both; }
+/* Real native cursors keep the hotspot instant; the separate bloom is decorative. */
+:root {
+  --petal-cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='32' viewBox='0 0 28 32'%3E%3Cpath d='M4 3C5 13 5 20 10 23L13 16C19 17 22 18 24 19C21 11 13 6 4 3Z' fill='%23fbe1ed' stroke='%23fffcfe' stroke-width='3' stroke-linejoin='round'/%3E%3Cpath d='M4 3C5 13 5 20 10 23L13 16C19 17 22 18 24 19C21 11 13 6 4 3Z' fill='%23fbe1ed' stroke='%23865070' stroke-width='1.2' stroke-linejoin='round'/%3E%3Cpath d='m5 4 8 12 3 9' fill='none' stroke='%23865070' stroke-width='1' stroke-linecap='round'/%3E%3C/svg%3E") 4 3, auto;
+  --petal-link-cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='34' viewBox='0 0 32 34'%3E%3Cpath d='M4 3C5 13 5 20 10 23L13 16C19 17 22 18 24 19C21 11 13 6 4 3Z' fill='%23e9bdd5' stroke='%23fffcfe' stroke-width='3' stroke-linejoin='round'/%3E%3Cpath d='M4 3C5 13 5 20 10 23L13 16C19 17 22 18 24 19C21 11 13 6 4 3Z' fill='%23e9bdd5' stroke='%2373548e' stroke-width='1.2' stroke-linejoin='round'/%3E%3Cpath d='m5 4 8 12 3 9' fill='none' stroke='%2373548e' stroke-linecap='round'/%3E%3Cpath d='m25 23 1.5 3 3 1.5-3 1.5-1.5 3-1.5-3-3-1.5 3-1.5Z' fill='%23e9bdd5' stroke='%2373548e' stroke-width='.8'/%3E%3C/svg%3E") 4 3, pointer;
+}
+.botanical-pointer, .botanical-pointer body { cursor: var(--petal-cursor); }
+.botanical-pointer a[href], .botanical-pointer button, .botanical-pointer summary, .botanical-pointer select, .botanical-pointer label[for], .botanical-pointer .themeChoice, .botanical-pointer input:is([type="checkbox"], [type="radio"]), .botanical-pointer [role="button"] { cursor: var(--petal-link-cursor); }
+.botanical-pointer input:not([type="checkbox"]):not([type="radio"]), .botanical-pointer textarea, .botanical-pointer [contenteditable="true"] { cursor: text; }
+.botanical-pointer :disabled, .botanical-pointer [aria-disabled="true"] { cursor: not-allowed; }
+.cursorLayer { position: fixed; z-index: 100; inset: 0; overflow: hidden; pointer-events: none; user-select: none; }
+.cursorBloom { position: absolute; left: 0; top: 0; width: 40px; height: 40px; color: var(--primary); opacity: 0; transition: opacity .18s ease; }
+.cursorBloom.is-visible { opacity: .42; }
+.cursorBloom svg { display: block; width: 100%; height: 100%; overflow: visible; transform: scale(.62) rotate(-18deg); transition: transform .45s cubic-bezier(.22,.7,.3,1), color .3s ease; }
+.cursorBloom.is-link { color: var(--accent); opacity: .68; }
+.cursorBloom.is-link svg { transform: scale(1.12) rotate(15deg); }
+.cursorBurst { position: absolute; width: 44px; height: 44px; margin: -22px; color: var(--primary); }
+.cursorBurst svg { display: block; width: 100%; height: 100%; }
+@media (forced-colors: active) {
+  .searchBox:focus-within { outline: 2px solid Highlight; outline-offset: 2px; }
+  .botanical-pointer, .botanical-pointer body { cursor: auto; }
+  .botanical-pointer a[href], .botanical-pointer button, .botanical-pointer summary, .botanical-pointer select, .botanical-pointer label[for], .botanical-pointer .themeChoice { cursor: pointer; }
+  .cursorLayer { display: none; }
+}
 @media (hover: hover) and (pointer: fine) {
   .motion-enabled .project:hover { transform: translateY(-3px); border-color: var(--strong); box-shadow: 0 16px 44px color-mix(in srgb, var(--primary) 8%, transparent); }
   .motion-enabled .hoverLight:hover::after { opacity: .7; }
@@ -410,7 +434,7 @@ dialog[open]::backdrop { animation: backdropIn .3s ease both; }
 @media print {
   :root { --text: #222; --muted: #444; --surface: #fff; --glass: #fff; --bg: #fff; --soft: #f7f7f7; --lavender: #f7f7f7; --primary: #5c4050; --border: #ccc; --accent: #555; }
   body { min-width: 0; background: #fff !important; color: #222; font-size: 11pt; }
-  body::before, .top, .skip, .fieldIndex, .actions, .workTools, .resultRow, .cardActions, .footerActions, dialog, .toast, .emptyState { display: none !important; }
+  body::before, .top, .skip, .fieldIndex, .actions, .workTools, .resultRow, .cardActions, .footerActions, dialog, .toast, .emptyState, .cursorLayer { display: none !important; }
   .wrap { width: 100%; }
   .hero, .method { display: block; padding-top: 0; }
   .heroCopy { padding: 0; }

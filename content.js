@@ -45,8 +45,7 @@ window.PORTFOLIO = {
   ],
   "workIntro": {
     "eyebrow": "01 / SELECTED WORK",
-    "title": "项目与实践",
-    "body": "先看问题和改动，再沿提交记录核对细节。fork 项目注明个人工作，Agent 实验保留人机分工。"
+    "title": "项目与实践"
   },
   "featured": [
     {
@@ -197,8 +196,7 @@ window.PORTFOLIO = {
             "组织资料、空间数据、指标、图件和双语文本。",
             "收到质量要求后，自行选择审查对象、判断问题并修改方案。"
           ]
-        },
-        "note": "审查边界：后期对部分土地用途和主张的收缩，发生在我明确要求“额外做一次合理性审查”之后。具体检查什么、如何判断和修改，仍由 Agent 决定。"
+        }
       },
       "evidenceTitle": "过程与交付",
       "evidence": [
@@ -403,7 +401,7 @@ window.PORTFOLIO = {
   },
   "footer": {
     "left": "qiyuanhuakai · engineering portfolio",
-    "right": "Design & code by Codex"
+    "right": "Design & code by GPT-6.1 Sol"
   },
   "ui": {
     "skip": "跳到正文",

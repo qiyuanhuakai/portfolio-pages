@@ -14,7 +14,7 @@
       if (localStorage.getItem('portfolio-quiet') === 'true') document.documentElement.dataset.motion = 'reduced';
     } catch (_) { /* Storage may be disabled; system preferences still apply. */ }
   </script>
-  <link rel="stylesheet" href="style.css?v=20261023-motion-2">
+  <link rel="stylesheet" href="style.css?v=20261023-petals">
 </head>
 <body>
   <a class="skip" href="#top">跳到正文</a>
@@ -25,7 +25,7 @@
   <dialog id="evidenceDialog" aria-labelledby="evidenceHeading"></dialog>
   <dialog id="copyDialog" aria-labelledby="copyHeading"></dialog>
   <div class="toast" role="status" aria-live="polite" aria-atomic="true" id="toast"></div>
-  <script src="content.js?v=20261023-motion"></script>
+  <script src="content.js?v=20261023-petals"></script>
   <script>
   (() => {
     const p = window.PORTFOLIO;
@@ -82,11 +82,11 @@
     const cardActions = item => `<div class="cardActions"><div class="cardPrimaryActions"><button type="button" class="btn small" data-evidence="${esc(item.id)}"><span>${esc(u.evidence)}</span>${icon('external')}</button>${item.link ? external(item.link, item.linkLabel, 'textlink') : ''}</div><button type="button" class="copyLink" data-copy="${esc(item.id)}">${esc(u.copy)}</button></div>`;
     const featured = p.featured.map(item => {
       const columns = item.columns ? `<div class="split">${item.columns.map(col => `<div><h4>${esc(col.title)}</h4>${col.items ? list(col.items) : `<p>${esc(col.body)}</p>`}</div>`).join('')}</div>` : '';
-      const boundary = item.boundary ? `<div class="boundary">${['human', 'agent'].map(key => `<div class="boundaryBox ${key}"><div class="label">${esc(item.boundary[key].label)}</div><h4>${esc(item.boundary[key].title)}</h4>${list(item.boundary[key].items)}</div>`).join('')}</div><p class="truthNote">${esc(item.boundary.note)}</p>` : '';
+      const boundary = item.boundary ? `<div class="boundary">${['human', 'agent'].map(key => `<div class="boundaryBox ${key}"><div class="label">${esc(item.boundary[key].label)}</div><h4>${esc(item.boundary[key].title)}</h4>${list(item.boundary[key].items)}</div>`).join('')}</div>` : '';
       return `<article class="case project" id="${esc(item.id)}" data-category="${esc(item.category)}" aria-labelledby="${esc(item.id)}-title"><aside class="caseMeta"><span class="num">${esc(item.number)}</span><span class="category">${esc(item.categoryLabel)}</span><p class="role">${esc(item.role)}</p>${stack(item)}</aside><div class="caseBody"><h3 id="${esc(item.id)}-title">${esc(item.title)}</h3><p class="lead">${esc(item.lead)}</p>${columns}${boundary}${evidencePreview(item)}${cardActions(item)}</div></article>`;
     }).join('');
     const compact = p.compact.map(item => `<article class="compact project" id="${esc(item.id)}" data-category="${esc(item.category)}" aria-labelledby="${esc(item.id)}-title"><div class="compactMeta"><span class="num">${esc(item.number)}</span><span class="category">${esc(item.categoryLabel)}</span></div><h3 id="${esc(item.id)}-title">${esc(item.title)}</h3><p class="lead">${esc(item.intro)}</p>${stack(item)}${item.items ? list(item.items) : ''}${item.metrics ? `<div class="metrics">${item.metrics.map(m => `<div><strong>${esc(m.value)}</strong><span>${esc(m.label)}</span></div>`).join('')}</div>` : ''}${item.body ? `<p>${esc(item.body)}</p>` : ''}${evidencePreview(item)}${cardActions(item)}</article>`).join('');
-    const work = `<section class="section wrap" id="work" aria-labelledby="workHeading"><div class="sectionHead"><div><div class="eyebrow">${esc(p.workIntro.eyebrow)}</div><h2 id="workHeading">${esc(p.workIntro.title)}<span class="headingMark" aria-hidden="true">✳</span></h2></div><p>${esc(p.workIntro.body)}</p></div>
+    const work = `<section class="section wrap" id="work" aria-labelledby="workHeading"><div class="sectionHead"><div><div class="eyebrow">${esc(p.workIntro.eyebrow)}</div><h2 id="workHeading">${esc(p.workIntro.title)}<span class="headingMark" aria-hidden="true">✳</span></h2></div></div>
       <div class="workTools"><div class="filters" role="group" aria-label="${esc(u.filterLabel)}">${u.filters.map(f => `<button type="button" data-filter="${esc(f.id)}" aria-pressed="${f.id === 'all'}">${esc(f.label)} <span>${f.id === 'all' ? projects.length : projects.filter(p => p.category === f.id).length}</span></button>`).join('')}</div><div class="searchBox">${icon('search')}<input type="search" id="projectSearch" aria-label="${esc(u.search)}" placeholder="${esc(u.searchPlaceholder)}"><button type="button" id="clearSearch" aria-label="${esc(u.clearSearch)}" hidden>${icon('close')}</button></div></div>
       <div class="resultRow"><p id="resultCount" role="status" aria-live="polite"></p><button type="button" class="copyLink" id="resetFilters" hidden>${esc(u.reset)}</button></div>
       <div class="cases">${featured}</div><div class="compactGrid">${compact}</div><div class="emptyState" id="emptyState" hidden><h3>${esc(u.emptyTitle)}</h3><p>${esc(u.emptyBody)}</p><button type="button" class="btn" data-reset>${esc(u.reset)}</button></div></section>`;
@@ -98,6 +98,6 @@
     window.PORTFOLIO_VIEW = { projects, esc, external, icon };
   })();
   </script>
-  <script src="motion.js?v=20261023-motion"></script>
+  <script src="motion.js?v=20261023-petals"></script>
 </body>
 </html>
