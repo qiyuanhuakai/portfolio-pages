@@ -5,7 +5,7 @@
 window.PORTFOLIO = {
   "meta": {
     "title": "qiyuanhuakai · Engineering Portfolio",
-    "description": "qiyuanhuakai 的技术作品集。记录多 Agent 客户端、科研软件维护、ARM64 移植和长周期 Agent 实验，并附提交与评测证据。",
+    "description": "qiyuanhuakai 的技术作品集。记录多 Agent 客户端、科研软件维护、品牌 Skill 工具、ARM64 移植与长周期 Agent 实验，并附提交与评测证据。",
     "brand": "qiyuanhuakai",
     "github": "https://github.com/qiyuanhuakai",
     "zip": "https://github.com/qiyuanhuakai/portfolio-pages/archive/refs/heads/main.zip"
@@ -27,11 +27,11 @@ window.PORTFOLIO = {
   },
   "stats": [
     {
-      "value": "05",
+      "value": "06",
       "label": "工程案例"
     },
     {
-      "value": "06",
+      "value": "07",
       "label": "关联仓库"
     },
     {
@@ -50,7 +50,7 @@ window.PORTFOLIO = {
   },
   "featured": [
     {
-      "number": "01 / 05",
+      "number": "01 / 06",
       "role": "长期维护 / 多 Agent GUI",
       "stack": [
         "Vue 3",
@@ -112,7 +112,7 @@ window.PORTFOLIO = {
       "summary": "多后端接入、流式状态与大文件渲染"
     },
     {
-      "number": "02 / 05",
+      "number": "02 / 06",
       "role": "科研软件 / 工程维护",
       "stack": [
         "C++20",
@@ -169,7 +169,7 @@ window.PORTFOLIO = {
       "summary": "旧代码维护、构建迁移与多线程结果一致性"
     },
     {
-      "number": "03 / 05",
+      "number": "03 / 06",
       "role": "长周期任务 / 自主性实验",
       "stack": [
         "GPT-5.6 Sol",
@@ -224,11 +224,76 @@ window.PORTFOLIO = {
       "category": "agent",
       "categoryLabel": "Agent 实验",
       "summary": "开放城市规划任务与长周期自主执行"
+    },
+    {
+      "id": "kimi-brand-skill",
+      "category": "tooling",
+      "categoryLabel": "设计工具",
+      "title": "Kimi Brand Skill",
+      "role": "品牌规范 / Agent Skill 工具",
+      "summary": "品牌规范、设计 token 与可执行校验",
+      "stack": [
+        "JavaScript",
+        "Design Tokens",
+        "CSS",
+        "Tailwind CSS",
+        "WCAG"
+      ],
+      "lead": "我将 Kimi 公开品牌手册整理成一个非官方 Skill，把色彩、字体、图表和对外文案规则转成参考文档、设计 token 与初始化脚本，供 Agent 在项目中使用。官方资料与工程推导分开标注，仓库不附带 Logo 或字体文件。",
+      "columns": [
+        {
+          "title": "把规则接到实际项目中",
+          "items": [
+            "整理官方 15 色与字体体系，以 JSON token 作为机器可读的数据源，提供 CSS 变量和可选组件。",
+            "用初始化脚本导出 CSS、Tailwind 配置或 JSON；校验参数，默认保留已有文件。",
+            "补充色值、语义配色、CSS 解析、命令行行为与品牌资产检查，减少文档和实现之间的偏差。"
+          ]
+        },
+        {
+          "title": "反复验证后修正的细节",
+          "items": [
+            "按实际前景与背景检查文字对比度，并修复浅色系统下手动切换深色主题不生效的问题。",
+            "将 Tailwind 输出改为 kimi- 平铺前缀，既保留原有默认样式，也检查品牌工具类能否实际生成。",
+            "区分图形对画布的对比度与数据系列的可辨识性，撤掉错误的数值保证，要求配合标注、形状或线型。"
+          ]
+        }
+      ],
+      "evidenceTitle": "修订与来源边界",
+      "evidence": [
+        {
+          "code": "230b414",
+          "text": "修正对比度阈值、CSS 注释与参数解析",
+          "url": "https://github.com/qiyuanhuakai/kimi-brand-skill-custom/commit/230b414149094d91f5be03b72fb6bb45f2040c7b"
+        },
+        {
+          "code": "67c7916",
+          "text": "按背景校验文字色并修复显式深色主题",
+          "url": "https://github.com/qiyuanhuakai/kimi-brand-skill-custom/commit/67c791659ec960566930d610d3668460b09b7da0"
+        },
+        {
+          "code": "3e07d4f",
+          "text": "验证 Tailwind 工具类生成并同步 CSS / JSON 系列色",
+          "url": "https://github.com/qiyuanhuakai/kimi-brand-skill-custom/commit/3e07d4fa5b4fb26bb66877395d6f00f890686647"
+        },
+        {
+          "code": "1c8108f",
+          "text": "撤掉无效的系列可辨识性保证，补充非颜色编码要求",
+          "url": "https://github.com/qiyuanhuakai/kimi-brand-skill-custom/commit/1c8108fa6a504590531a5923708f857ce393f7ae"
+        },
+        {
+          "code": "NOTICE",
+          "text": "非官方属性、数据来源与工程推导范围（固定版本）",
+          "url": "https://github.com/qiyuanhuakai/kimi-brand-skill-custom/blob/2b8114b727992b5c55ec221f6764dce44ae07ff6/NOTICE.md"
+        }
+      ],
+      "linkLabel": "查看仓库 ↗",
+      "link": "https://github.com/qiyuanhuakai/kimi-brand-skill-custom",
+      "number": "04 / 06"
     }
   ],
   "compact": [
     {
-      "number": "04 / 05 · PORTABILITY",
+      "number": "05 / 06 · PORTABILITY",
       "title": "DeChat + Ratatosk on ARM64",
       "intro": "排查 ARM64 编译失败时，问题逐渐落在线程参数传递、x86 SIMD 假设和编译器兼容上。Ratatosk 的构建问题还涉及 Bifrost 子模块，需要沿依赖链继续修复。",
       "items": [
@@ -265,7 +330,7 @@ window.PORTFOLIO = {
       ]
     },
     {
-      "number": "05 / 05 · EVALUATION",
+      "number": "06 / 06 · EVALUATION",
       "title": "DeepSWE × kat-coder-pro-v2.5",
       "intro": "这次评测的最终通过率为 8.93%（10 / 112）。我同时整理了异常归类、重跑取值和 verifier 超时的处理规则，便于检查这个分数是怎样得到的。",
       "metrics": [
@@ -381,6 +446,10 @@ window.PORTFOLIO = {
       {
         "id": "evaluation",
         "label": "模型评测"
+      },
+      {
+        "id": "tooling",
+        "label": "设计工具"
       }
     ],
     "resultTemplate": "显示 {count} / {total} 个项目",

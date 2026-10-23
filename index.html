@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="color-scheme" content="light dark">
   <meta name="theme-color" content="#fff7fa">
-  <meta name="description" content="qiyuanhuakai 的技术作品集：多 Agent 客户端、科研软件、ARM64 移植与长周期任务。">
+  <meta name="description" content="qiyuanhuakai 的技术作品集：多 Agent 客户端、科研软件、品牌 Skill 工具、ARM64 移植与长周期任务。">
   <title>qiyuanhuakai · Engineering Portfolio</title>
   <script>
     try {
@@ -25,7 +25,7 @@
   <dialog id="evidenceDialog" aria-labelledby="evidenceHeading"></dialog>
   <dialog id="copyDialog" aria-labelledby="copyHeading"></dialog>
   <div class="toast" role="status" aria-live="polite" aria-atomic="true" id="toast"></div>
-  <script src="content.js?v=20261023"></script>
+  <script src="content.js?v=20261023-kimi"></script>
   <script>
   (() => {
     const p = window.PORTFOLIO;
@@ -60,7 +60,7 @@
       <div class="eyebrow">${esc(p.hero.eyebrow)}</div><h1 id="heroHeading">${esc(p.hero.titleBefore)}<em>${esc(p.hero.titleAccent)}</em>${esc(p.hero.titleAfter)}</h1>
       <p class="intro">${esc(p.hero.intro)}</p><div class="actions"><a class="btn primary" href="#work">${esc(p.hero.primaryAction)} <span aria-hidden="true">↘</span></a><button class="btn" type="button" data-evidence="all">${esc(u.navEvidence)}</button></div>
       <p class="heroNote">${esc(p.hero.note)}</p>
-      </div><aside class="fieldIndex" aria-label="${esc(p.hero.mapLabel)}"><div class="fieldTop"><span>${esc(p.hero.ornamentLabel)}</span><span>FIELD INDEX / 05</span></div>${petals}<div class="indexHeading"><h2>${esc(p.hero.mapTitle)}</h2><p>${esc(p.hero.mapNote)}</p></div>
+      </div><aside class="fieldIndex" aria-label="${esc(p.hero.mapLabel)}"><div class="fieldTop"><span>${esc(p.hero.ornamentLabel)}</span><span>FIELD INDEX / ${String(projects.length).padStart(2, '0')}</span></div>${petals}<div class="indexHeading"><h2>${esc(p.hero.mapTitle)}</h2><p>${esc(p.hero.mapNote)}</p></div>
       <nav class="projectPaths" aria-label="${esc(u.jumpLabel)}">${projects.map((item, i) => `<a href="#${esc(item.id)}"><span class="pathNumber">0${i + 1}</span><span>${esc(item.title)}<small>${esc(item.summary)}</small></span><span aria-hidden="true">↗</span></a>`).join('')}</nav></aside>
       <div class="signal">${p.stats.map(s => `<div><strong>${esc(s.value)}</strong><span>${esc(s.label)}</span></div>`).join('')}</div>
     </section>`;
