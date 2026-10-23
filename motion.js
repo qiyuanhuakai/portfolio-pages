@@ -16,7 +16,6 @@
   const ease = 'cubic-bezier(.22,.7,.3,1)';
   const activeAnimations = new Set();
   const animationSlots = new WeakMap();
-  let resetPointer = () => {};
   const animateUI = (element, frames, options = {}, slot = 'motion') => {
     if (!motionAllowed() || !element?.animate) return null;
     let slots = animationSlots.get(element);
@@ -41,7 +40,6 @@
   const syncMotionState = (initial = false) => {
     const allowed = motionAllowed();
     root.classList.toggle('motion-enabled', allowed);
-    resetPointer();
     if (!allowed) activeAnimations.forEach(animation => animation.cancel());
     else if (!initial) revealTargets.forEach(element => {
       if (element.getBoundingClientRect().top < innerHeight) revealElement(element, false);
@@ -211,7 +209,7 @@
     evidenceSelect.value = btn.dataset.evidence;
     renderEvidence();
     evidenceDialog.showModal();
-    evidenceDialog.scrollTop = 0;
+    evidenceDialog.querySelector('.dialogScroll').scrollTop = 0;
     evidenceDialog.querySelector('[data-close]').focus({ preventScroll: true });
     animateUI(evidenceDialog, [{ opacity: 0, transform: 'translateY(12px) scale(.985)' }, { opacity: 1, transform: 'none' }], { duration: 360 }, 'dialog');
   }));
@@ -268,93 +266,7 @@
   }
   syncMotionState(true);
   if (!location.hash) $$('.heroCopy>*').forEach((element, index) => animateUI(element, [{ opacity: 0, transform: 'translateY(12px)' }, { opacity: 1, transform: 'none' }], { duration: 800, delay: index * 85 }, 'hero'));
-  $$('.project, .fieldIndex, .aiNote').forEach(element => {
-    element.classList.add('hoverLight');
-    let pointerFrame;
-    element.addEventListener('pointermove', e => {
-      if (!motionAllowed() || e.pointerType === 'touch' || pointerFrame) return;
-      pointerFrame = requestAnimationFrame(() => {
-        pointerFrame = undefined;
-        const rect = element.getBoundingClientRect();
-        element.style.setProperty('--light-x', `${e.clientX - rect.left}px`);
-        element.style.setProperty('--light-y', `${e.clientY - rect.top}px`);
-      });
-    }, { passive: true });
-  });
-  // The browser draws the actual arrow. This layer never hides the system cursor
-  // and only updates on mouse events, with no idle animation loop or trail nodes.
-  const finePointer = matchMedia('(hover: hover) and (pointer: fine)');
-  const forcedColors = matchMedia('(forced-colors: active)');
-  const pointerLayer = document.createElement('div');
-  pointerLayer.className = 'cursorLayer';
-  pointerLayer.setAttribute('aria-hidden', 'true');
-  pointerLayer.hidden = true;
-  const blossom = '<svg viewBox="0 0 44 44" fill="none" stroke="currentColor" stroke-width=".8" aria-hidden="true"><path d="M22 21C6 17 12 5 22 15C32 5 38 17 22 21ZM23 22C27 6 39 12 29 22C39 32 27 38 23 22ZM22 23C38 27 32 39 22 29C12 39 6 27 22 23ZM21 22C17 38 5 32 15 22C5 12 17 6 21 22Z"/><circle cx="22" cy="22" r="2" opacity=".5"/></svg>';
-  const pointerBloom = document.createElement('div');
-  pointerBloom.className = 'cursorBloom';
-  pointerBloom.innerHTML = blossom;
-  pointerLayer.append(pointerBloom);
-  document.body.append(pointerLayer);
-  const pointerAllowed = () => finePointer.matches && motionAllowed() && !forcedColors.matches && !document.hidden;
-  let pointerFrame;
-  let pointerSample;
-  const hideBloom = () => {
-    cancelAnimationFrame(pointerFrame);
-    pointerFrame = undefined;
-    pointerSample = undefined;
-    pointerBloom.classList.remove('is-visible', 'is-link');
-  };
-  resetPointer = () => {
-    hideBloom();
-    root.classList.remove('botanical-pointer');
-    pointerLayer.hidden = true;
-    pointerLayer.querySelectorAll('.cursorBurst').forEach(burst => burst.remove());
-  };
-  const nativeTarget = target => target.closest('input:not([type="checkbox"]):not([type="radio"]), textarea, [contenteditable="true"], select, dialog, :disabled, [aria-disabled="true"]');
-  const linkTarget = target => target.closest('a[href], button, summary, label[for], .themeChoice, input[type="checkbox"], input[type="radio"], [role="button"]');
-  document.addEventListener('pointermove', e => {
-    if (e.pointerType !== 'mouse' || !pointerAllowed()) { resetPointer(); return; }
-    root.classList.add('botanical-pointer');
-    pointerLayer.hidden = false;
-    if (e.buttons || nativeTarget(e.target) || !getSelection()?.isCollapsed) { hideBloom(); return; }
-    pointerSample = { x: e.clientX, y: e.clientY, link: Boolean(linkTarget(e.target)) };
-    if (pointerFrame) return;
-    pointerFrame = requestAnimationFrame(() => {
-      pointerFrame = undefined;
-      const point = pointerSample;
-      if (!point) return;
-      // The bloom sits just behind the native petal arrow, away from its hotspot.
-      pointerBloom.style.transform = `translate3d(${point.x - 8}px, ${point.y - 7}px, 0)`;
-      pointerBloom.classList.add('is-visible');
-      pointerBloom.classList.toggle('is-link', point.link);
-    });
-  }, { passive: true });
-  document.addEventListener('pointerdown', e => {
-    if (e.pointerType !== 'mouse') { resetPointer(); return; }
-    if (e.button !== 0 || !pointerAllowed() || nativeTarget(e.target)) return;
-    if (pointerLayer.querySelectorAll('.cursorBurst').length >= 3) pointerLayer.querySelector('.cursorBurst').remove();
-    const burst = document.createElement('span');
-    burst.className = 'cursorBurst';
-    burst.innerHTML = blossom;
-    burst.style.left = `${e.clientX}px`;
-    burst.style.top = `${e.clientY}px`;
-    pointerLayer.append(burst);
-    const animation = animateUI(burst, [{ opacity: .65, transform: 'scale(.45) rotate(-10deg)' }, { opacity: 0, transform: 'scale(1.65) rotate(30deg)' }], { duration: 620 }, 'bloom');
-    if (animation) animation.finished.then(() => burst.remove(), () => burst.remove());
-    else burst.remove();
-  }, { passive: true });
-  document.documentElement.addEventListener('pointerleave', resetPointer);
-  document.addEventListener('keydown', resetPointer);
-  window.addEventListener('blur', resetPointer);
-  window.addEventListener('scroll', hideBloom, { passive: true });
-  $$('dialog').forEach(dialog => {
-    dialog.addEventListener('toggle', () => { if (dialog.open) hideBloom(); });
-    dialog.addEventListener('close', hideBloom);
-    dialog.addEventListener('scroll', hideBloom, { passive: true });
-  });
-  finePointer.addEventListener('change', resetPointer);
-  forcedColors.addEventListener('change', resetPointer);
-  const updateVisibility = () => { root.classList.toggle('page-paused', document.hidden); if (document.hidden) resetPointer(); };
+  const updateVisibility = () => root.classList.toggle('page-paused', document.hidden);
   document.addEventListener('visibilitychange', updateVisibility);
   updateVisibility();
 })();

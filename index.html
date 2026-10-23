@@ -14,9 +14,16 @@
       if (localStorage.getItem('portfolio-quiet') === 'true') document.documentElement.dataset.motion = 'reduced';
     } catch (_) { /* Storage may be disabled; system preferences still apply. */ }
   </script>
-  <link rel="stylesheet" href="style.css?v=20261023-petals">
+  <link rel="stylesheet" href="style.css?v=20261023-mist">
 </head>
 <body>
+  <div class="atmosphere" aria-hidden="true"><svg viewBox="0 0 1440 1000" fill="none" preserveAspectRatio="xMidYMid slice">
+    <defs><linearGradient id="silk" x1="1040" y1="0" x2="480" y2="1000" gradientUnits="userSpaceOnUse"><stop stop-color="#e6b2cb" stop-opacity=".22"/><stop offset=".55" stop-color="#b7a1d0" stop-opacity=".06"/><stop offset="1" stop-color="#e6b2cb" stop-opacity=".16"/></linearGradient></defs>
+    <path d="M940-140C1480 180 840 340 1110 670S1630 900 1230 1150L1450 1150C1830 830 1260 660 1280 420S1470 60 1120-140Z" fill="url(#silk)"/>
+    <g stroke="#a37a9b" stroke-width=".8" opacity=".18"><path d="M1000-100C1500 190 800 390 1130 730S1540 960 1310 1120"/><path d="M1010-100C1510 190 815 390 1140 730S1550 960 1320 1120"/><path d="M-140 880C380 870-50 420 240 280S490 0 330-140"/><path d="M-130 890C395 880-35 430 250 290S505 10 345-140"/></g>
+    <g fill="#d7a6c2" opacity=".18"><path d="M1270 155C1245 124 1264 102 1290 105C1296 132 1285 147 1270 155Z"/><path d="M155 740C136 714 147 696 170 697C178 719 168 734 155 740Z"/></g>
+    <g stroke="#a58ab8" stroke-width=".8" opacity=".25"><path d="M1240 370v12m-6-6h12M170 150v10m-5-5h10M340 870v10m-5-5h10"/></g>
+  </svg></div>
   <a class="skip" href="#top">跳到正文</a>
   <header class="top"><div class="topin wrap" id="headerContent"></div></header>
   <main id="top" tabindex="-1"></main>
@@ -72,7 +79,7 @@
       </g></svg>`;
     const hero = `<section class="hero wrap" aria-labelledby="heroHeading"><div class="heroCopy">
       <div class="eyebrow">${esc(p.hero.eyebrow)}</div><h1 id="heroHeading">${esc(p.hero.titleBefore)}<em>${esc(p.hero.titleAccent)}</em>${esc(p.hero.titleAfter)}</h1>
-      <p class="intro">${esc(p.hero.intro)}</p><div class="actions"><a class="btn primary" href="#work"><span>${esc(p.hero.primaryAction)}</span>${icon('forward')}</a><button class="btn" type="button" data-evidence="all">${esc(u.navEvidence)}</button></div>
+      <p class="intro">${esc(p.hero.intro)}</p><div class="actions"><a class="btn primary" href="#work"><span>${esc(p.hero.primaryAction)}</span>${icon('forward')}</a></div>
       <p class="heroNote">${esc(p.hero.note)}</p>
       </div><aside class="fieldIndex" aria-label="${esc(p.hero.mapLabel)}"><div class="fieldTop"><span>${esc(p.hero.ornamentLabel)}</span><span>FIELD INDEX / ${String(projects.length).padStart(2, '0')}</span></div>${petals}<div class="indexHeading"><h2>${esc(p.hero.mapTitle)}</h2><p>${esc(p.hero.mapNote)}</p></div>
       <nav class="projectPaths" aria-label="${esc(u.jumpLabel)}">${projects.map((item, i) => `<a href="#${esc(item.id)}"><span class="pathNumber">0${i + 1}</span><span>${esc(item.title)}<small>${esc(item.summary)}</small></span>${icon('external')}</a>`).join('')}</nav></aside>
@@ -93,11 +100,11 @@
     const approach = `<section class="section wrap" id="approach" aria-labelledby="approachHeading"><div class="method"><div class="methodIntro"><div class="eyebrow">${esc(p.approach.eyebrow)}</div><h2 id="approachHeading">${esc(p.approach.title)}</h2><div class="methodOrnament" aria-hidden="true">${seal}<span>PROCESS<br>↓<br>EVIDENCE</span></div></div><div><div class="principles">${p.approach.principles.map(x => `<div class="principle"><span class="n">${esc(x.number)}</span><h3>${esc(x.title)}</h3><p>${esc(x.body)}</p></div>`).join('')}</div><div class="aiNote"><div class="label">${esc(p.approach.aiLabel)}</div><h3>${esc(p.approach.aiTitle)}</h3><p>${esc(p.approach.aiBody)}</p></div></div></div></section>`;
     document.getElementById('top').innerHTML = hero + work + approach;
     document.getElementById('footerContent').innerHTML = `<div class="footerActions"><a class="textlink withIcon" href="${esc(p.meta.zip)}"><span>${esc(p.hero.secondaryAction)}</span>${icon('download')}</a><button type="button" class="copyLink" id="printPage">${esc(u.print)}</button><button type="button" class="copyLink" data-copy="page">${esc(u.copyPage)}</button><a class="withIcon" href="#top"><span>${esc(plainLabel(u.backTop))}</span>${icon('up')}</a></div><div class="foot"><span>${esc(p.footer.left)}</span><span>${esc(p.footer.right)}</span></div>`;
-    document.getElementById('evidenceDialog').innerHTML = `<div class="dialogTop"><div class="eyebrow">SOURCE NOTES / 证据</div><button type="button" class="closeDialog" data-close aria-label="${esc(u.close)}">${icon('close')}</button></div><h2 id="evidenceHeading">${esc(u.evidenceTitle)}</h2><p class="dialogIntro">${esc(u.evidenceIntro)}</p><label for="evidenceSelect">${esc(u.evidenceSelect)}</label><div class="selectField"><select id="evidenceSelect"><option value="all">${esc(u.allEvidence)}</option>${projects.map(item => `<option value="${esc(item.id)}">${esc(item.title)}</option>`).join('')}</select>${icon('chevron')}</div><div id="evidenceGroups"></div><p class="dialogNote">${esc(u.evidenceNote)}</p>`;
-    document.getElementById('copyDialog').innerHTML = `<div class="dialogTop"><h2 id="copyHeading">${esc(u.copyManual)}</h2><button type="button" class="closeDialog" data-close aria-label="${esc(u.close)}">${icon('close')}</button></div><p>${esc(u.copyFallback)}</p><input id="manualLink" type="url" readonly aria-label="${esc(u.copyManual)}">`;
+    document.getElementById('evidenceDialog').innerHTML = `<div class="dialogScroll" tabindex="0" role="region" aria-label="${esc(u.evidenceTitle)}"><div class="dialogTop"><div class="eyebrow">SOURCE NOTES / 证据</div><button type="button" class="closeDialog" data-close aria-label="${esc(u.close)}">${icon('close')}</button></div><h2 id="evidenceHeading">${esc(u.evidenceTitle)}</h2><p class="dialogIntro">${esc(u.evidenceIntro)}</p><label for="evidenceSelect">${esc(u.evidenceSelect)}</label><div class="selectField"><select id="evidenceSelect"><option value="all">${esc(u.allEvidence)}</option>${projects.map(item => `<option value="${esc(item.id)}">${esc(item.title)}</option>`).join('')}</select>${icon('chevron')}</div><div id="evidenceGroups"></div><p class="dialogNote">${esc(u.evidenceNote)}</p></div>`;
+    document.getElementById('copyDialog').innerHTML = `<div class="dialogScroll"><div class="dialogTop"><h2 id="copyHeading">${esc(u.copyManual)}</h2><button type="button" class="closeDialog" data-close aria-label="${esc(u.close)}">${icon('close')}</button></div><p>${esc(u.copyFallback)}</p><input id="manualLink" type="url" readonly aria-label="${esc(u.copyManual)}"></div>`;
     window.PORTFOLIO_VIEW = { projects, esc, external, icon };
   })();
   </script>
-  <script src="motion.js?v=20261023-petals"></script>
+  <script src="motion.js?v=20261023-mist"></script>
 </body>
 </html>
