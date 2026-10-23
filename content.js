@@ -403,7 +403,7 @@ window.PORTFOLIO = {
   },
   "footer": {
     "left": "qiyuanhuakai · engineering portfolio",
-    "right": "AI 辅助构建 · 保留实现与修订记录"
+    "right": "Design & code by Codex"
   },
   "ui": {
     "skip": "跳到正文",

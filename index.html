@@ -14,7 +14,7 @@
       if (localStorage.getItem('portfolio-quiet') === 'true') document.documentElement.dataset.motion = 'reduced';
     } catch (_) { /* Storage may be disabled; system preferences still apply. */ }
   </script>
-  <link rel="stylesheet" href="style.css?v=20261023-controls">
+  <link rel="stylesheet" href="style.css?v=20261023-motion">
 </head>
 <body>
   <a class="skip" href="#top">跳到正文</a>
@@ -25,7 +25,7 @@
   <dialog id="evidenceDialog" aria-labelledby="evidenceHeading"></dialog>
   <dialog id="copyDialog" aria-labelledby="copyHeading"></dialog>
   <div class="toast" role="status" aria-live="polite" aria-atomic="true" id="toast"></div>
-  <script src="content.js?v=20261023-controls"></script>
+  <script src="content.js?v=20261023-motion"></script>
   <script>
   (() => {
     const p = window.PORTFOLIO;
@@ -64,11 +64,11 @@
       </div></details>`;
     const petals = `<svg class="botanical" viewBox="0 0 480 250" fill="none" aria-hidden="true">
       <defs><linearGradient id="petalWash" x1="120" y1="40" x2="360" y2="220" gradientUnits="userSpaceOnUse"><stop stop-color="#f3b6d0" stop-opacity=".65"/><stop offset="1" stop-color="#c4b2e6" stop-opacity=".18"/></linearGradient></defs>
-      <g stroke="currentColor" stroke-width=".7"><ellipse cx="260" cy="123" rx="177" ry="93" transform="rotate(-18 260 123)" opacity=".28"/><ellipse cx="260" cy="123" rx="145" ry="108" transform="rotate(23 260 123)" opacity=".16"/>
+      <g stroke="currentColor" stroke-width=".7"><ellipse class="orbit" cx="260" cy="123" rx="177" ry="93" transform="rotate(-18 260 123)" opacity=".28"/><ellipse class="orbit orbitBack" cx="260" cy="123" rx="145" ry="108" transform="rotate(23 260 123)" opacity=".16"/>
       <path d="M20 210C120 210 114 22 258 123S423 155 477 17M0 228C176 234 113-20 258 123S413 208 480 26M58 240C210 182 144-14 258 123S449 235 479 81" opacity=".28"/>
-      <g fill="url(#petalWash)" stroke-opacity=".45"><path id="petal" d="M258 123C203 113 193 61 227 31C230 53 245 39 252 34C279 58 280 90 258 123Z"/><use href="#petal" transform="rotate(72 258 123)"/><use href="#petal" transform="rotate(144 258 123)"/><use href="#petal" transform="rotate(216 258 123)"/><use href="#petal" transform="rotate(288 258 123)"/></g>
+      <g class="petalBloom" fill="url(#petalWash)" stroke-opacity=".45"><path id="petal" d="M258 123C203 113 193 61 227 31C230 53 245 39 252 34C279 58 280 90 258 123Z"/><use href="#petal" transform="rotate(72 258 123)"/><use href="#petal" transform="rotate(144 258 123)"/><use href="#petal" transform="rotate(216 258 123)"/><use href="#petal" transform="rotate(288 258 123)"/></g>
       <circle cx="258" cy="123" r="7"/><circle cx="258" cy="123" r="13" opacity=".35"/>
-      <path d="M385 44V58M378 51H392M122 74V86M116 80H128M403 188V198M398 193H408" opacity=".6"/><circle cx="97" cy="158" r="2"/><circle cx="355" cy="207" r="2"/><circle cx="420" cy="92" r="3"/>
+      <path class="sparkle" d="M385 44V58M378 51H392M122 74V86M116 80H128M403 188V198M398 193H408" opacity=".6"/><circle class="sparkle sparkleLate" cx="97" cy="158" r="2"/><circle class="sparkle" cx="355" cy="207" r="2"/><circle class="sparkle sparkleLate" cx="420" cy="92" r="3"/>
       </g></svg>`;
     const hero = `<section class="hero wrap" aria-labelledby="heroHeading"><div class="heroCopy">
       <div class="eyebrow">${esc(p.hero.eyebrow)}</div><h1 id="heroHeading">${esc(p.hero.titleBefore)}<em>${esc(p.hero.titleAccent)}</em>${esc(p.hero.titleAfter)}</h1>
@@ -98,6 +98,6 @@
     window.PORTFOLIO_VIEW = { projects, esc, external, icon };
   })();
   </script>
-  <script src="motion.js?v=20261023-controls"></script>
+  <script src="motion.js?v=20261023-motion"></script>
 </body>
 </html>
