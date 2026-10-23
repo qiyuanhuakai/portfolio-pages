@@ -14,13 +14,15 @@
       if (localStorage.getItem('portfolio-quiet') === 'true') document.documentElement.dataset.motion = 'reduced';
     } catch (_) { /* Storage may be disabled; system preferences still apply. */ }
   </script>
-  <link rel="stylesheet" href="style.css?v=20261023-mist">
+  <link rel="stylesheet" href="style.css?v=20261023-glass-star">
 </head>
 <body>
   <div class="atmosphere" aria-hidden="true"><svg viewBox="0 0 1440 1000" fill="none" preserveAspectRatio="xMidYMid slice">
-    <defs><linearGradient id="silk" x1="1040" y1="0" x2="480" y2="1000" gradientUnits="userSpaceOnUse"><stop stop-color="#e6b2cb" stop-opacity=".22"/><stop offset=".55" stop-color="#b7a1d0" stop-opacity=".06"/><stop offset="1" stop-color="#e6b2cb" stop-opacity=".16"/></linearGradient></defs>
+    <defs><linearGradient id="silk" x1="1040" y1="0" x2="480" y2="1000" gradientUnits="userSpaceOnUse"><stop stop-color="var(--ribbon-pink)" stop-opacity=".52"/><stop offset=".55" stop-color="var(--ribbon-lilac)" stop-opacity=".28"/><stop offset="1" stop-color="var(--ribbon-pink)" stop-opacity=".44"/></linearGradient></defs>
     <path d="M940-140C1480 180 840 340 1110 670S1630 900 1230 1150L1450 1150C1830 830 1260 660 1280 420S1470 60 1120-140Z" fill="url(#silk)"/>
-    <g stroke="#a37a9b" stroke-width=".8" opacity=".18"><path d="M1000-100C1500 190 800 390 1130 730S1540 960 1310 1120"/><path d="M1010-100C1510 190 815 390 1140 730S1550 960 1320 1120"/><path d="M-140 880C380 870-50 420 240 280S490 0 330-140"/><path d="M-130 890C395 880-35 430 250 290S505 10 345-140"/></g>
+    <path d="M-180 720C200 940 500 730 680 520S1220 170 1580 410" stroke="url(#silk)" stroke-width="85" stroke-linecap="round"/>
+    <path d="M-180 695C200 915 500 705 680 495S1220 145 1580 385" stroke="var(--surface)" stroke-opacity=".28" stroke-width="2"/>
+    <g stroke="#a37a9b" stroke-width=".8" opacity=".28"><path d="M1000-100C1500 190 800 390 1130 730S1540 960 1310 1120"/><path d="M1010-100C1510 190 815 390 1140 730S1550 960 1320 1120"/><path d="M-140 880C380 870-50 420 240 280S490 0 330-140"/><path d="M-130 890C395 880-35 430 250 290S505 10 345-140"/></g>
     <g fill="#d7a6c2" opacity=".18"><path d="M1270 155C1245 124 1264 102 1290 105C1296 132 1285 147 1270 155Z"/><path d="M155 740C136 714 147 696 170 697C178 719 168 734 155 740Z"/></g>
     <g stroke="#a58ab8" stroke-width=".8" opacity=".25"><path d="M1240 370v12m-6-6h12M170 150v10m-5-5h10M340 870v10m-5-5h10"/></g>
   </svg></div>
@@ -105,6 +107,6 @@
     window.PORTFOLIO_VIEW = { projects, esc, external, icon };
   })();
   </script>
-  <script src="motion.js?v=20261023-mist"></script>
+  <script src="motion.js?v=20261023-glass-star"></script>
 </body>
 </html>
