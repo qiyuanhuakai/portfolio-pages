@@ -16,6 +16,7 @@
   const ease = 'cubic-bezier(.22,.7,.3,1)';
   const activeAnimations = new Set();
   const animationSlots = new WeakMap();
+  let resetCursor = () => {};
   const animateUI = (element, frames, options = {}, slot = 'motion') => {
     if (!motionAllowed() || !element?.animate) return null;
     let slots = animationSlots.get(element);
@@ -40,6 +41,7 @@
   const syncMotionState = (initial = false) => {
     const allowed = motionAllowed();
     root.classList.toggle('motion-enabled', allowed);
+    resetCursor();
     if (!allowed) activeAnimations.forEach(animation => animation.cancel());
     else if (!initial) revealTargets.forEach(element => {
       if (element.getBoundingClientRect().top < innerHeight) revealElement(element, false);
@@ -266,7 +268,86 @@
   }
   syncMotionState(true);
   if (!location.hash) $$('.heroCopy>*').forEach((element, index) => animateUI(element, [{ opacity: 0, transform: 'translateY(12px)' }, { opacity: 1, transform: 'none' }], { duration: 800, delay: index * 85 }, 'hero'));
-  const updateVisibility = () => root.classList.toggle('page-paused', document.hidden);
+  // Keep the precise dot native. Only the outer ring follows with a short ease.
+  // The manual popover stays above dialogs without taking focus or pointer input.
+  if ('showPopover' in HTMLElement.prototype) {
+    const pointerMedia = matchMedia('(hover: hover) and (pointer: fine)');
+    const forcedColors = matchMedia('(forced-colors: active)');
+    const halo = document.createElement('div');
+    halo.id = 'cursorHalo';
+    halo.setAttribute('popover', 'manual');
+    halo.setAttribute('aria-hidden', 'true');
+    halo.innerHTML = '<div class="cursorHaloPosition"><span class="cursorHaloRing"></span></div>';
+    document.body.append(halo);
+    const position = halo.firstElementChild;
+    let point, drawn, frame = 0, lastTime = 0, releaseTimer;
+    const allowed = () => motionAllowed() && pointerMedia.matches && !forcedColors.matches && !document.hidden;
+    const nativeTarget = target => target.closest('input:not([type="checkbox"]):not([type="radio"]), textarea, [contenteditable="true"], select, :disabled, [aria-disabled="true"]');
+    const linkTarget = target => target.closest('a[href], button, summary, label[for], .themeChoice, input[type="checkbox"], input[type="radio"], [role="button"]');
+    resetCursor = () => {
+      cancelAnimationFrame(frame);
+      clearTimeout(releaseTimer);
+      frame = 0;
+      point = drawn = undefined;
+      root.classList.remove('elastic-pointer');
+      halo.classList.remove('is-link', 'is-pressed');
+      if (halo.matches(':popover-open')) halo.hidePopover();
+    };
+    const paint = () => { position.style.transform = `translate3d(${drawn.x}px, ${drawn.y}px, 0)`; };
+    const tick = now => {
+      frame = 0;
+      if (!point || !allowed()) { resetCursor(); return; }
+      const dx = point.x - drawn.x, dy = point.y - drawn.y;
+      const distance = Math.hypot(dx, dy);
+      const blend = 1 - Math.exp(-Math.min(32, Math.max(1, now - lastTime)) / 38);
+      drawn.x += dx * blend;
+      drawn.y += dy * blend;
+      lastTime = now;
+      position.style.setProperty('--halo-angle', `${Math.atan2(dy, dx)}rad`);
+      position.style.setProperty('--halo-stretch', String(1 + Math.min(.1, distance / 250)));
+      paint();
+      if (distance > .12) frame = requestAnimationFrame(tick);
+      else {
+        drawn = { ...point };
+        position.style.setProperty('--halo-stretch', '1');
+        paint();
+      }
+    };
+    document.addEventListener('pointermove', e => {
+      if (e.pointerType !== 'mouse' || !allowed() || nativeTarget(e.target) || getSelection()?.isCollapsed === false || (e.buttons && !linkTarget(e.target))) { resetCursor(); return; }
+      point = { x: e.clientX, y: e.clientY };
+      if (!drawn) {
+        drawn = { ...point };
+        paint();
+        position.style.setProperty('--halo-stretch', '1');
+        try { halo.showPopover(); } catch (_) { resetCursor(); return; }
+        root.classList.add('elastic-pointer');
+      }
+      halo.classList.toggle('is-link', Boolean(linkTarget(e.target)));
+      if (!frame) { lastTime = performance.now() - 16; frame = requestAnimationFrame(tick); }
+    }, { passive: true });
+    document.addEventListener('pointerdown', e => {
+      if (e.pointerType !== 'mouse' || nativeTarget(e.target)) { resetCursor(); return; }
+      if (e.button === 0 && drawn && linkTarget(e.target)) { clearTimeout(releaseTimer); halo.classList.add('is-pressed'); }
+    }, { passive: true });
+    document.addEventListener('pointerup', () => {
+      if (halo.classList.contains('is-pressed')) releaseTimer = setTimeout(() => halo.classList.remove('is-pressed'), 100);
+    }, { passive: true });
+    document.addEventListener('pointercancel', resetCursor);
+    root.addEventListener('pointerleave', resetCursor);
+    document.addEventListener('keydown', resetCursor);
+    window.addEventListener('blur', resetCursor);
+    window.addEventListener('scroll', () => {
+      if (!point) return;
+      const target = document.elementFromPoint(point.x, point.y);
+      if (!target || nativeTarget(target)) resetCursor();
+      else halo.classList.toggle('is-link', Boolean(linkTarget(target)));
+    }, { passive: true });
+    $$('dialog').forEach(dialog => dialog.addEventListener('toggle', resetCursor));
+    pointerMedia.addEventListener('change', resetCursor);
+    forcedColors.addEventListener('change', resetCursor);
+  }
+  const updateVisibility = () => { root.classList.toggle('page-paused', document.hidden); if (document.hidden) resetCursor(); };
   document.addEventListener('visibilitychange', updateVisibility);
   updateVisibility();
 })();

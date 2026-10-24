@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <defs><linearGradient id="petal" x1="8" y1="0" x2="56" y2="64" gradientUnits="userSpaceOnUse"><stop stop-color="#fff8fc"/><stop offset="1" stop-color="#efdcec"/></linearGradient></defs>
+  <rect x="2" y="2" width="60" height="60" rx="16" fill="url(#petal)"/>
+  <path d="M32 32C5.6 26 17.6 6.8 32 22.4C46.4 6.8 58.4 26 32 32C58.4 38 46.4 57.2 32 41.6C17.6 57.2 5.6 38 32 32Z" fill="#efd0e3" stroke="#8a4c71" stroke-width="2.64" stroke-linejoin="round"/>
+  <circle cx="32" cy="32" r="3" fill="#845374"/>
+</svg>
